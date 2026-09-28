@@ -260,3 +260,20 @@ curl -X POST http://localhost:3000/api/alunos/aluno-ana-souza/trabalhos \
 
 > Novos registros criados via API recebem ids no formato UUID (gerados com
 > `crypto.randomUUID()`), diferente dos ids legíveis usados nos dados fake acima.
+
+## Testes automatizados
+
+Suíte com **Mocha**, **Supertest** e **Chai** que cobre o fluxo: login como administrador,
+cadastro de aluno, matrícula na disciplina, login como aluno e registro da entrega de um trabalho.
+
+- **Data-Driven Testing:** os cenários ficam em `test/fixtures/entregaDeTrabalho.json`; cada item
+  do arquivo gera uma bateria de testes.
+- **Helpers:** `test/helpers/auth.js` expõe `getToken`, `loginComoAdmin` e `loginComoAluno`.
+- **Dotenv:** `test/setup.js` carrega o `.env` antes da suíte (`MONGODB_URI`, `ADMIN_EMAIL`,
+  `ADMIN_SENHA`). Use o `.env.example` como modelo.
+- **Pipeline:** `.github/workflows/tests.yml` sobe um MongoDB, cria o `.env` e executa `npm test`.
+
+```bash
+cp .env.example .env
+npm test
+```
